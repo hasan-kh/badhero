@@ -40,10 +40,28 @@ jobs:
                 docker build -t "${{ env.APPLICATION_NAME }}:latest"
                 docker image save "${{ env.APPLICATION_NAME }}:latest" -o app2.image
             
+            - name: list files
+              run: ls -la
+
             - name: Upload a Docker image
               uses: actions/upload-artifact@v4.3.4
               with:
                 name: app2.image
                 path: ./app2.image
                     
+    test-docker-image:
+        needs: [lint, build-docker-image]
+        runs-on: ubuntu-18.04
+        steps:
+            # - uses: actions/checkout@v4
+        
+            - name: Download docker image
+              uses: actions/download-artifact@v4.1.8
+              with:
+                name: app2.image
             
+            - name: list files
+              run: ls -la
+            
+            - name: test image
+              run: docker run app2.image -m unittest --verbose --failfast
