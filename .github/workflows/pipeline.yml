@@ -4,11 +4,10 @@ on: [push]
 
 env:
     APPLICATION_NAME: app2
-    LINUX_OS: ubuntu-22.04
 
 jobs:
     lint:
-        runs-on: ${{ env.LINUX_OS }}
+        runs-on: ubuntu-22.04
         steps:
             - uses: actions/checkout@v4
 
